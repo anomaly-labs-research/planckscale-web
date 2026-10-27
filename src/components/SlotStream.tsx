@@ -143,7 +143,7 @@ export function SlotStream() {
         const boxW = Math.max(...lines.map((l) => ctx.measureText(l).width)) + 20;
         const boxH = lines.length * 16 + 12;
         const right = x + SLOT_W + 22;
-        const bx = right + boxW < w - 8 ? right : x - boxW - 22;
+        const bx = right + boxW < w - 8 ? right : Math.max(8, x - boxW - 22);
         const by = Math.max(8, y - boxH - 24);
 
         ctx.setLineDash([3, 4]);
