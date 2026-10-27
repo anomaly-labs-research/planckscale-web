@@ -8,10 +8,13 @@ export const metadata: Metadata = {
 
 export default function DisclaimerPage() {
   return (
-    <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-16">
-      <p className="mb-3 text-xs font-medium uppercase tracking-[0.14em] text-fg-faint">Please read</p>
-      <h1 className="text-4xl font-semibold tracking-tight">Disclaimer</h1>
-      <div className="doc mt-8">
+    <main className="mx-auto w-full max-w-3xl flex-1 px-(--gut) py-16">
+      <header className="doc-head">
+        <div className="eyebrow">Please read</div>
+        <h1>Disclaimer</h1>
+        <p>What this handbook is, what it is not, and how much to trust it.</p>
+      </header>
+      <div className="doc">
         <h2>Not investment advice</h2>
         <p>
           Nothing in this handbook is investment, financial, trading, legal or tax advice, and nothing
@@ -45,7 +48,7 @@ export default function DisclaimerPage() {
           intermediate, expert) change how much of each page is shown, not how accurate it is.
         </p>
       </div>
-      <Link href="/" className="mt-10 inline-block text-sm text-accent-strong underline underline-offset-4">
+      <Link href="/" className="btn mt-12">
         Back to the handbook
       </Link>
     </main>

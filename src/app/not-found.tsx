@@ -2,12 +2,15 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-6 py-32 text-center">
-      <p className="text-6xl font-semibold tracking-tight text-fg-faint">404</p>
-      <h1 className="mt-4 text-xl font-semibold">That page is not in the handbook.</h1>
-      <Link href="/" className="mt-6 text-sm text-accent-strong underline underline-offset-4">
-        Back to the start
-      </Link>
+    <main className="nf">
+      <div className="wrap">
+        <div className="eyebrow">404 — Below the Planck scale</div>
+        <h1 className="mt-6">Not in the handbook.</h1>
+        <p className="mt-6 mb-8 text-soft">This page is smaller than anything we can measure.</p>
+        <Link href="/" className="btn solid">
+          Back to the handbook
+        </Link>
+      </div>
     </main>
   );
 }

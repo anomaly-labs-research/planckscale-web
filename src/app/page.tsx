@@ -1,96 +1,110 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { DOCS, SECTIONS, docsInSection } from "@/lib/manifest";
-import { DocCard } from "@/components/DocCard";
+import { Arrow, DocCard } from "@/components/DocCard";
 import { ModePicker } from "@/components/ModePicker";
+import { Reveal } from "@/components/Reveal";
+import { SlotStream } from "@/components/SlotStream";
+
+function SectionHead({ num, label, title, children }: { num: string; label: string; title: ReactNode; children: ReactNode }) {
+  return (
+    <div className="sec-head reveal">
+      <div>
+        <div className="eyebrow">
+          <b>{num}</b> — {label}
+        </div>
+        <h2>{title}</h2>
+      </div>
+      <p>{children}</p>
+    </div>
+  );
+}
+
+const TITLES: Record<string, ReactNode> = {
+  overview: <>The map,<br />then the market.</>,
+  strategies: <>One explainer<br />per strategy.</>,
+  infrastructure: <>Who orders<br />the block.</>,
+};
 
 export default function Home() {
-  const featured = DOCS.filter((d) => d.section === "overview");
+  const prefix = (id: string) => id.slice(0, 1).toUpperCase();
   return (
     <main className="flex-1">
-      <section className="relative overflow-hidden border-b border-border">
-        <div className="grid-bg" />
-        <div className="spot" />
-        <div className="relative mx-auto max-w-6xl px-6 pb-20 pt-24 sm:pt-32">
-          <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-bg-elevated/70 px-3 py-1 text-xs font-medium text-fg-muted">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+      <Reveal />
+
+      <header className="hero">
+        <SlotStream />
+        <div className="wrap">
+          <div className="eyebrow">
+            <span className="status-dot" />
             Solana · as of September 2026
-          </p>
-          <h1 className="max-w-3xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-7xl">
-            Solana MEV Handbook.
-            <span className="block text-fg-faint">Strategy by strategy.</span>
+          </div>
+          <h1>
+            Solana MEV, <em>strategy by strategy.</em>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-fg-muted">
-            What each on-chain trading strategy is, how the math works, what it looks like on
-            <span className="rounded bg-accent/15 px-1 text-accent">Solana, and where the edge has moved.</span> Researched from primary sources, with every
-            unconfirmed claim marked.
+          <p className="hero-lede">
+            What each on-chain trading strategy is, how the math works, what it looks like on Solana, and
+            where the edge has moved. Researched from primary sources, with every unconfirmed claim marked.
           </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link
-              href="/docs/strategies"
-              className="rounded-lg bg-fg px-4 py-2.5 text-sm font-medium text-bg transition hover:opacity-90"
-            >
-              Start with the landscape
+          <div className="hero-actions">
+            <Link href="/docs/strategies" className="btn solid">
+              Start with the landscape <Arrow />
             </Link>
-            <Link
-              href="/docs/state-of-solana-mev"
-              className="rounded-lg border border-border-strong px-4 py-2.5 text-sm font-medium text-fg transition hover:bg-bg-hover"
-            >
+            <Link href="/docs/state-of-solana-mev" className="btn">
               State of MEV on Solana
             </Link>
           </div>
-          <dl className="mt-16 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
+          <dl className="stats">
             {[
-              [String(DOCS.length), "explainers"],
-              [String(DOCS.filter((d) => d.section === "strategies").length), "strategies"],
-              ["250+", "sources cited"],
-              ["approaching 200 ms", "slot time"],
+              [String(DOCS.length), "Explainers"],
+              [String(docsInSection("strategies").length), "Strategies"],
+              ["250+", "Sources cited"],
+              ["~200 ms", "Slot time, approaching"],
             ].map(([n, label]) => (
               <div key={label}>
-                <dt className="text-2xl font-semibold tracking-tight">{n}</dt>
-                <dd className="text-sm text-fg-faint">{label}</dd>
+                <dt>{n}</dt>
+                <dd>{label}</dd>
               </div>
             ))}
           </dl>
         </div>
-      </section>
+      </header>
 
-      <section className="mx-auto max-w-6xl px-6 pt-16">
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold tracking-tight">Pick how deep to go</h2>
-          <p className="mt-1 max-w-2xl text-sm text-fg-muted">
-            Every explainer is written in three layers. Choose a reading level once and each page
-            shows only what fits it; switch any time from the header.
-          </p>
-        </div>
-        <ModePicker />
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid gap-4 md:grid-cols-2">
-          {featured.map((d) => (
-            <DocCard key={d.slug} doc={d} large />
-          ))}
+      <section className="sec">
+        <div className="wrap">
+          <SectionHead num="00" label="Reading level" title={<>Pick how<br />deep to go.</>}>
+            Every explainer is written in three layers. Choose a reading level once and each page shows
+            only what fits it; switch any time from the header.
+          </SectionHead>
+          <ModePicker />
         </div>
       </section>
 
-      {
-        SECTIONS.filter((s) => s.id !== "overview").map((section) => (
-          <section key={section.id} className="mx-auto max-w-6xl px-6 pb-16">
-            <div className="mb-6 flex items-end justify-between gap-6">
-              <div>
-                <h2 className="text-2xl font-semibold tracking-tight">{section.title}</h2>
-                <p className="mt-1 text-sm text-fg-muted">{section.tagline}</p>
+      {SECTIONS.map((section, i) => {
+        const docs = docsInSection(section.id);
+        const large = section.id === "overview" || docs.length === 1;
+        // Size columns to the doc count so the joined grid never has a half-empty row.
+        const cols = docs.length === 1 ? "" : large || docs.length % 3 !== 0 ? "cols-2" : "cols-3";
+        return (
+          <section key={section.id} className="sec">
+            <div className="wrap">
+              <SectionHead num={String(i + 1).padStart(2, "0")} label={section.title} title={TITLES[section.id]}>
+                {section.tagline}
+              </SectionHead>
+              <div className={`grid-cards ${cols}`}>
+                {docs.map((d, j) => (
+                  <DocCard
+                    key={d.slug}
+                    doc={d}
+                    large={large}
+                    num={`${prefix(section.id)}.${String(j + 1).padStart(2, "0")}`}
+                  />
+                ))}
               </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {docsInSection(section.id).map((d) => (
-                <DocCard key={d.slug} doc={d} />
-              ))}
-            </div>
           </section>
-        ))
-      }
-
+        );
+      })}
     </main>
   );
 }

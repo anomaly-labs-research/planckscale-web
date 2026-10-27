@@ -9,7 +9,7 @@ import { ModeSwitch } from "./ModeSwitch";
 export function ModeNotice({ toc }: { toc: TocEntry[] }) {
   const sections = toc.filter((e) => e.depth === 2);
   return (
-    <div className="mode-notice mb-8 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 rounded-xl border border-border bg-bg-elevated px-4 py-3 text-sm">
+    <div className="mode-notice">
       {MODES.map((m) => {
         const deeper = MODE_IDS.slice(MODE_IDS.indexOf(m.id) + 1);
         // Only sections a deeper mode would reveal count; beginner-only blocks are not "folded".
@@ -17,8 +17,8 @@ export function ModeNotice({ toc }: { toc: TocEntry[] }) {
           (e) => !e.modes.includes(m.id) && e.modes.some((x) => deeper.includes(x)),
         ).length;
         return (
-          <p key={m.id} data-mode-text={m.id} className="text-fg-muted">
-            <span className="font-medium text-fg">{m.label} mode.</span>{" "}
+          <p key={m.id} data-mode-text={m.id}>
+            <b>{m.label} mode.</b>{" "}
             {hidden === 0
               ? "Showing the full explainer."
               : `${hidden} of ${sections.length} sections folded away${

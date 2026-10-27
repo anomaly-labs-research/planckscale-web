@@ -1,43 +1,39 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { ModeSwitch } from "./ModeSwitch";
 import { ThemeToggle } from "./ThemeToggle";
 
+const NAV = [
+  { href: "/docs/strategies", label: "Strategies" },
+  { href: "/docs/state-of-solana-mev", label: "State of MEV" },
+  { href: "/docs/solana-block-building", label: "Block building" },
+  { href: "/disclaimer", label: "Disclaimer" },
+];
+
 export function Header() {
+  const pathname = usePathname();
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-bg/80 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-360 items-center justify-between gap-6 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2.5 text-sm font-semibold tracking-tight">
+    <nav className="top">
+      <div className="bar">
+        <Link href="/" className="brand" aria-label="Solana MEV Handbook home">
           <Logo />
-          <span>
-            MEV<span className="text-fg-muted">.sh</span>
-          </span>
+          PLANCKSCALE<span>/ MEV</span>
         </Link>
-        <div className="flex items-center gap-2 sm:gap-4">
-          <nav className="hidden items-center gap-1 text-sm md:flex">
-            <Link
-              href="/docs/strategies"
-              className="rounded-md px-3 py-1.5 text-fg-muted transition hover:bg-bg-hover hover:text-fg"
-            >
-              Strategies
+        <div className="links">
+          {NAV.map((l) => (
+            <Link key={l.href} href={l.href} aria-current={pathname === l.href ? "page" : undefined}>
+              {l.label}
             </Link>
-            <Link
-              href="/docs/state-of-solana-mev"
-              className="rounded-md px-3 py-1.5 text-fg-muted transition hover:bg-bg-hover hover:text-fg"
-            >
-              State of MEV
-            </Link>
-            <Link
-              href="/docs/solana-block-building"
-              className="hidden rounded-md px-3 py-1.5 text-fg-muted transition hover:bg-bg-hover hover:text-fg lg:block"
-            >
-              Block building
-            </Link>
-          </nav>
+          ))}
+        </div>
+        <div className="nav-tools">
           <ModeSwitch />
           <ThemeToggle />
         </div>
       </div>
-    </header>
+    </nav>
   );
 }

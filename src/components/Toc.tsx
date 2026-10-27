@@ -31,9 +31,7 @@ export function Toc({ entries }: { entries: TocEntry[] }) {
   if (entries.length === 0) return null;
   return (
     <nav className="toc" aria-label="On this page">
-      <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-fg-faint">
-        On this page
-      </p>
+      <p className="side-label">On this page</p>
       {entries.map((e) => (
         <a
           key={e.id}
