@@ -29,8 +29,9 @@ export default function Lattice() {
       [x, z] = [x * c - z * s, x * s + z * c];
       c = Math.cos(b); s = Math.sin(b);
       [y, z] = [y * c - z * s, y * s + z * c];
-      const f = 9 / (z + 14), sc = Math.min(w, h) * 0.085;
-      return [w * 0.62 + x * f * sc, h * 0.42 + y * f * sc, f] as const;
+      const f = 9 / (z + 14), sc = Math.min(w, h) * 0.085, narrow = w < 720;
+      // Narrow screens give the lattice its own band, so center it there.
+      return [w * (narrow ? 0.5 : 0.62) + x * f * sc, h * (narrow ? 0.5 : 0.42) + y * f * sc, f] as const;
     };
 
     const frame = () => {

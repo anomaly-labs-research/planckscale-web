@@ -78,6 +78,11 @@ nav.top .wrap{display:flex;align-items:center;height:68px;gap:28px}
 .hero h1 em{font-style:normal;color:var(--dim)}
 .hero-lede{font-size:clamp(1rem,1.5vw,1.2rem);max-width:52ch}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+/* On phones the lattice gets its own band below the fixed nav instead of sitting under the copy. */
+@media (max-width:720px){
+  .hero{--art:clamp(220px,36svh,320px);min-height:0;padding-top:calc(68px + var(--art) + 8px)}
+  #lattice,.hero::after{top:68px;bottom:auto;height:var(--art)}
+}
 .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:8px;box-shadow:0 0 0 0 var(--ok);animation:pulse 2.4s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 60%,transparent)}70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
 
