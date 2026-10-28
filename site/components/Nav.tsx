@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { NAV } from "@/lib/data";
+import { NAV } from "@/site/lib/data";
+import { Logo } from "@/components/Logo";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -23,14 +25,6 @@ export default function Nav() {
     };
   }, []);
 
-  const flipTheme = () => {
-    const root = document.documentElement;
-    root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light";
-    try {
-      localStorage.setItem("ps-theme", root.dataset.theme);
-    } catch {}
-  };
-
   return (
     <nav className={`top${scrolled ? " scrolled" : ""}`}>
       <div className="wrap">
@@ -45,12 +39,7 @@ export default function Nav() {
             </a>
           ))}
         </div>
-        <button className="icon-btn" id="theme" type="button" onClick={flipTheme} aria-label="Toggle light and dark theme">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-            <circle cx="12" cy="12" r="8" />
-            <path d="M12 4a8 8 0 000 16z" fill="currentColor" />
-          </svg>
-        </button>
+        <ThemeToggle />
         <button
           className="icon-btn menu-btn"
           type="button"
@@ -68,12 +57,3 @@ export default function Nav() {
   );
 }
 
-// ħ (reduced Planck constant) drawn as strokes inside a square.
-export function Logo() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" strokeWidth="2.4" />
-      <path d="M12.6 5.4 8.6 18.6M9.7 15c1-3 2.6-4.6 4.4-4.6 1.3 0 1.8.9 1.4 2.3l-1.1 3.6c-.4 1.3.1 2 .9 2 .7 0 1.3-.5 1.9-1.4M8.9 9.6l5.6-2" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" transform="translate(-0.9 0)" />
-    </svg>
-  );
-}

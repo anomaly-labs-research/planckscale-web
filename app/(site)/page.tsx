@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
-import Nav from "@/components/Nav";
-import Lattice from "@/components/Lattice";
+import Link from "next/link";
+import Nav from "@/site/components/Nav";
+import Lattice from "@/site/components/Lattice";
 import Reveal from "@/components/Reveal";
-import Platform from "@/components/Platform";
-import Explorer from "@/components/Explorer";
-import Mosca from "@/components/Mosca";
-import { PROBLEMS, SHOW } from "@/lib/data";
+import Platform from "@/site/components/Platform";
+import Explorer from "@/site/components/Explorer";
+import Mosca from "@/site/components/Mosca";
+import { PROBLEMS, SHOW } from "@/site/lib/data";
 
 function SectionHead({ num, label, title, children }: { num: string; label: string; title: ReactNode; children: ReactNode }) {
   return (
@@ -59,9 +60,9 @@ const FOCUS = [
     ),
   },
   {
-    num: "III / DISTRIBUTED SYSTEMS", title: "Distributed systems",
-    body: "Ledgers, consensus and fleets that must change their cryptography without stopping. We design migrations that keep state, funds and liveness intact.",
-    items: ["PQ signatures on-chain", "Validator & key infrastructure", "Fleet-scale key rotation"],
+    num: "III / DECENTRALIZED SYSTEMS & DEFI", title: "Decentralized systems & DeFi",
+    body: "Ledgers, consensus and on-chain markets that must change their cryptography without stopping. We design migrations that keep state, funds and liveness intact, and study how value moves through block building and DeFi.",
+    items: ["PQ signatures on-chain", "Validator & key infrastructure", <Link key="mev" href="/mev/">MEV &amp; execution research</Link>],
     glyph: (
       <>
         <rect x="6" y="30" width="22" height="28" />
@@ -87,8 +88,8 @@ export default function Home() {
           <div className="eyebrow"><span className="status-dot" />Research &amp; Development</div>
           <h1>Hard problems at the <em>edge</em> of computation.</h1>
           <p className="hero-lede">
-            PlanckScale is a research and development firm working across quantum computing, cryptography and distributed
-            systems. We take hard results out of papers and ship them as production-grade infrastructure.
+            PlanckScale is a research and development firm working across quantum computing, cryptography, decentralized
+            systems and DeFi. We take hard results out of papers and ship them as production-grade infrastructure.
           </p>
           <div className="hero-actions">
             {SHOW.work
@@ -112,7 +113,7 @@ export default function Home() {
                 <svg className="glyph" viewBox="0 0 88 88" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true">{p.glyph}</svg>
                 <h3>{p.title}</h3>
                 <p>{p.body}</p>
-                <ul>{p.items.map((i) => <li key={i}>{i}</li>)}</ul>
+                <ul>{p.items.map((item, i) => <li key={i}>{item}</li>)}</ul>
               </article>
             ))}
           </div>

@@ -6,6 +6,7 @@ export const NAV = [
   { href: "#work", label: "Work", show: SHOW.work },
   { href: "#problems", label: "Problems", show: SHOW.problems },
   { href: "#instruments", label: "Instruments", show: SHOW.instruments },
+  { href: "/mev/", label: "MEV" },
 ].filter((l) => l.show !== false);
 
 // Console lines are trusted, static markup; c-* classes colour spans.

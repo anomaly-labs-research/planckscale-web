@@ -1,0 +1,39 @@
+/* PlanckScale tokens, shared by the site and /mev: dark is the default; light overrides live in
+   [data-theme=light]. <html data-theme> is set before paint by NO_FLASH (lib/theme.ts). */
+:root {
+  color-scheme: dark;
+  --bg: #000;
+  --surface: #0d0d0d;
+  --surface-2: #151515;
+  --line: #262626;
+  --line-2: #3a3a3a;
+  --ink: #fff;
+  --soft: #c4c4c4;
+  --dim: #8a8a8a;
+  --faint: #5a5a5a;
+  --ok: #9be7b4;
+  --warn: #f2c76e;
+  --bad: #ff8a7a;
+  --rgb-ink: 255, 255, 255;
+  --mono: var(--font-jetbrains), ui-monospace, monospace;
+  --body: var(--font-inter), system-ui, sans-serif;
+  --display: var(--font-space-grotesk), system-ui, sans-serif;
+  --gut: clamp(16px, 5vw, 64px);
+  --max: 1200px;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f4f2;
+  --surface: #fff;
+  --surface-2: #ebebe8;
+  --line: #d9d9d5;
+  --line-2: #bdbdb8;
+  --ink: #0a0a0a;
+  --soft: #2e2e2e;
+  --dim: #666;
+  --faint: #9a9a9a;
+  --ok: #1f8a4c;
+  --warn: #a56a00;
+  --bad: #c2352a;
+  --rgb-ink: 0, 0, 0;
+}

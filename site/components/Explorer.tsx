@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ALGO_GROUPS, type QStatus } from "@/lib/data";
+import { ALGO_GROUPS, type QStatus } from "@/site/lib/data";
 
 const LABEL: Record<QStatus, string> = { broken: "Broken", weak: "Weakened", safe: "Resistant" };
 const ALL = ALGO_GROUPS.flatMap((g) => g.algos);
