@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type KeyboardEvent } from "react";
-import { MODULES } from "@/lib/data";
+import { MODULES } from "@/site/lib/data";
 
 export default function Platform() {
   const [sel, setSel] = useState(0);
@@ -9,23 +9,24 @@ export default function Platform() {
   const m = MODULES[sel];
   const lines = m.out.split("\n");
 
-  // Type the console output line by line on each tab change.
+  // Type the console output line by line on each tab change; reduced motion shows it all on the first tick.
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setShown(lines.length);
-      return;
-    }
-    setShown(0);
-    const id = setInterval(() => setShown((n) => (n >= lines.length ? n : n + 1)), 90);
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const id = setInterval(() => setShown((n) => (reduced ? lines.length : Math.min(n + 1, lines.length))), reduced ? 0 : 90);
     return () => clearInterval(id);
   }, [sel, lines.length]);
+
+  const select = (i: number) => {
+    setSel(i);
+    setShown(0);
+  };
 
   const onKey = (e: KeyboardEvent) => {
     const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
     if (step == null) return;
     e.preventDefault();
     const next = (sel + step + MODULES.length) % MODULES.length;
-    setSel(next);
+    select(next);
     document.getElementById(`tab${next}`)?.focus();
   };
 
@@ -44,7 +45,7 @@ export default function Platform() {
             aria-controls="panel"
             aria-selected={i === sel}
             tabIndex={i === sel ? 0 : -1}
-            onClick={() => setSel(i)}
+            onClick={() => select(i)}
           >
             <span className="t-num">W.0{i + 1} · {mod.status.toUpperCase()}</span>
             <span className="t-name">{mod.name}</span>

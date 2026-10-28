@@ -6,6 +6,8 @@ const nextConfig = {
   output: "export",
   trailingSlash: true,
   images: { unoptimized: true },
+  // Needed because (site) and (mev) are separate root layouts with no shared app/layout.
+  experimental: { globalNotFound: true },
 };
 
 export default nextConfig;
