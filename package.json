@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "bun --bun next dev",
-    "build": "bun --bun next build",
-    "preview": "bun --bun next build && bunx wrangler dev",
-    "deploy": "bun --bun next build && bunx wrangler deploy",
+    "build": "next build",
+    "preview": "next build && bunx wrangler dev",
+    "deploy": "next build && bunx wrangler deploy",
     "typecheck": "bunx tsc --noEmit",
     "lint": "eslint"
   },
